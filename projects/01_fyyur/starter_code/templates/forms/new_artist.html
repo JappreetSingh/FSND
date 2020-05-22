@@ -6,33 +6,91 @@
       <h3 class="form-heading">List a new artist</h3>
       <div class="form-group">
         <label for="name">Name</label>
-        {{ form.name(class_ = 'form-control', autofocus = true) }}
+        <div id="name">
+          {{ form.name(class_ = 'form-control', autofocus = true) }}
+        </div>
       </div>
       <div class="form-group">
           <label>City & State</label>
           <div class="form-inline">
-            <div class="form-group">
+            <div class="form-group" id="city">
               {{ form.city(class_ = 'form-control', placeholder='City', autofocus = true) }}
             </div>
-            <div class="form-group">
+            <div class="form-group" id="state">
               {{ form.state(class_ = 'form-control', placeholder='State', autofocus = true) }}
             </div>
           </div>
       </div>
       <div class="form-group">
           <label for="phone">Phone</label>
-          {{ form.phone(class_ = 'form-control', placeholder='xxx-xxx-xxxx', autofocus = true) }}
+          <div id="phone">
+            {{ form.phone(class_ = 'form-control', placeholder='xxx-xxx-xxxx', autofocus = true) }}
+          </div>
         </div>
       <div class="form-group">
         <label for="genres">Genres</label>
         <small>Ctrl+Click to select multiple</small>
-        {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', id=form.state, autofocus = true) }}
+        <div id="genres">
+          {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', id=form.genres, autofocus = true) }}
+        </div>
       </div>
       <div class="form-group">
-          <label for="genres">Facebook Link</label>
-          {{ form.facebook_link(class_ = 'form-control', placeholder='http://', id=form.state, autofocus = true) }}
+          <label for="facebook_link">Facebook Link</label>
+          <div id="facebook_link">
+            {{ form.facebook_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+          </div>
+      </div>
+      <div class="form-group">
+        <label for="image_link">Image Link</label>
+        <div id="image_link">
+          {{ form.image_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
         </div>
-      <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+      </div>
+      <div class="form-group">
+        <label for="website">Website</label>
+        <div id="website">
+          {{ form.website(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="seeking_description">Seeking Description</label>
+          <div id="seeking_description">
+            {{ form.seeking_description(class_ = 'form-control', autofocus = true) }}
+          </div>
+      </div>
+      <input type="submit" value="Create Artist" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>
+  <script>
+    $(function() {
+      $('form').submit(function(event) {
+        event.preventDefault();
+        // send to server
+        $.ajax({
+          data: {
+            name: $('#name').val(),
+            city: $('#city').val(),
+            state: $('#state').val(),
+            phone: $('#phone').val(),
+            genres: $('#genres').val(),
+            facebook_link: $('#facebook_link').val(),
+            image_link: $('#image_link').val(),
+            website: $('#website').val(),
+            seeking_description: $('#seeking_description').val()
+          },
+          type: 'POST',
+          dataType: 'json',
+          url: '/artists/create'
+        }).done(function (data) {
+          if (data.error) {
+            console.log("Error!")
+          }
+          else
+          {
+            console.log(data);
+          }
+        });        
+      });
+    });
+  </script>
 {% endblock %}

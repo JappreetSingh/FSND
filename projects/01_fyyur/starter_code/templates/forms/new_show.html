@@ -7,18 +7,49 @@
       <div class="form-group">
         <label for="artist_id">Artist ID</label>
         <small>ID can be found on the Artist's Page</small>
-        {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
+        <div id="artist_id">
+          {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
+        </div>
       </div>
       <div class="form-group">
         <label for="venue_id">Venue ID</label>
         <small>ID can be found on the Venue's Page</small>
-        {{ form.venue_id(class_ = 'form-control', autofocus = true) }}
+        <div id="venue_id">
+          {{ form.venue_id(class_ = 'form-control', autofocus = true) }}
+        </div>
       </div>
       <div class="form-group">
           <label for="start_time">Start Time</label>
-          {{ form.start_time(class_ = 'form-control', placeholder='YYYY-MM-DD HH:MM', autofocus = true) }}
+          <div id="start_time">
+            {{ form.start_time(class_ = 'form-control', placeholder='YYYY-MM-DD HH:MM', autofocus = true) }}
+          </div>
         </div>
-      <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+      <input type="submit" value="Create Show" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>
+  <script>
+    $(function() {
+      $('form').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+          data: {
+            venue_id: $('#venue_id').val(),
+            artist_id: $('#artist_id').val(),
+            start_time: $('#start_time').val()            
+          },
+          type: 'POST',
+          dataType: 'json',
+          url: '/shows/create'
+        }).done(function (data) {
+          if (data.error) {
+            console.log("Error!")
+          }
+          else
+          {
+            console.log(data);
+          }
+        });        
+      });
+    });
+  </script>
 {% endblock %}
