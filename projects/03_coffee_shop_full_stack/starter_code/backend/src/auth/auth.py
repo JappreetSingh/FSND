@@ -187,8 +187,8 @@ def requires_auth(permission=''):
                 payload = verify_decode_jwt(token)  # Decode JWT
                 # validate claims and check requested permission
                 check_permissions(permission, payload)
-            except AuthError as ex:
-                abort(ex.status_code)
+            except AuthError:
+                raise
             return f(payload, *args, **kwargs)
 
         return wrapper

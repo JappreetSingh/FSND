@@ -16,7 +16,7 @@ CORS(app)
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
-db_drop_and_create_all()
+# db_drop_and_create_all()
 
 # ROUTES
 '''
@@ -90,7 +90,7 @@ def create_drink(jwt):
         body = request.get_json()
 
         new_title = body.get('title', None)
-        new_recipe = body.get('recipe', None)
+        new_recipe = body.get('recipe', None)  # recipe value must be a string
 
         try:
             new_drink = Drink(title=new_title, recipe=new_recipe)
@@ -132,7 +132,7 @@ def update_drink(jwt, id):
 
         body = request.get_json()
         new_title = body.get('title', None)
-        new_recipe = body.get('recipe', None)
+        new_recipe = body.get('recipe', None)  # recipe value must be a string
 
         if new_title is not None:
             drink.title = new_title
